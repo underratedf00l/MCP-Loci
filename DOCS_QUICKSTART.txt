@@ -1,0 +1,143 @@
+================================================================================
+MCP-MEMORY DOCUMENTATION — QUICK START
+================================================================================
+
+STATUS: Complete ✅
+
+Local development server is running at:
+  http://127.0.0.1:8001
+
+Server PID: 25619
+Status: Live (auto-reloads on docs changes)
+
+================================================================================
+FILES CREATED
+================================================================================
+
+Configuration:
+  /Users/adamraymond/mcp-loci/mkdocs.yml
+
+Documentation (8 files):
+  docs/index.md                      → Home page
+  docs/spec.md                       → Technical spec (centerpiece)
+  docs/roadmap.md                    → Development roadmap
+  docs/api/tools.md                  → MCP tools reference (auto-generated)
+  docs/api/db.md                     → Database API (auto-generated)
+  docs/api/embeddings.md             → Embeddings API (auto-generated)
+  docs/api/confidence.md             → Confidence scoring API (auto-generated)
+
+Built site (9 files in /site):
+  index.html, spec/index.html, roadmap/index.html
+  api/tools/index.html, api/db/index.html
+  api/embeddings/index.html, api/confidence/index.html
+  404.html, search_index.json
+
+Setup report:
+  /Users/adamraymond/mcp-loci/DOCS_SETUP.md (this file)
+
+================================================================================
+WHAT YOU GOT
+================================================================================
+
+1. MkDocs Material theme installed (9.7.6)
+   - Light/dark mode toggle
+   - Indigo color scheme
+   - Full-text search
+   - Mobile responsive
+
+2. Complete technical specification (268 lines)
+   - Architecture overview
+   - Database schema (8 tables)
+   - MCP tool definitions (remember/recall/forget)
+   - Confidence scoring formula
+   - Embedding model specs
+   - Test coverage report
+   - Development roadmap
+
+3. Auto-generated API documentation
+   - Pulls from source docstrings (Google style)
+   - Links to function signatures
+   - Shows source code
+
+4. Development workflow
+   - Auto-reload on file changes
+   - Hot reload (no restart needed)
+   - Search index auto-builds
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+1. Open in browser:
+   http://127.0.0.1:8001
+
+2. Improve API reference documentation:
+   Add Google-style docstrings to:
+     mcp_loci/server.py
+     mcp_loci/db.py
+     mcp_loci/embedder.py
+     mcp_loci/similarity.py
+     mcp_loci/confidence.py
+
+   Example:
+   """Fetch memories by query.
+   
+   Performs hybrid FTS5 + semantic search.
+   
+   Args:
+       query: Search string.
+       limit: Max results (default: 10).
+   
+   Returns:
+       List of Memory objects, ranked by confidence.
+   
+   Raises:
+       ValueError: If query is empty.
+   """
+
+3. When ready to publish (Phase 5):
+   pip install ghp-import
+   mkdocs gh-deploy
+   
+   → Publishes to https://adamraymond.github.io/mcp-loci
+
+4. Add GitHub Actions CI:
+   Create .github/workflows/docs.yml to auto-deploy on push
+
+================================================================================
+USEFUL COMMANDS
+================================================================================
+
+Build static site:
+  cd /Users/adamraymond/mcp-loci && python3 -m mkdocs build
+
+Serve locally (already running):
+  cd /Users/adamraymond/mcp-loci && python3 -m mkdocs serve
+
+Deploy to GitHub Pages:
+  cd /Users/adamraymond/mcp-loci && mkdocs gh-deploy
+
+Stop the live server:
+  kill 25619
+
+================================================================================
+TECH STACK
+================================================================================
+
+mkdocs (1.6.1)
+mkdocs-material (9.7.6)
+mkdocstrings (1.0.3)
+mkdocstrings-python (2.0.3)
+mkdocs-gen-files (0.6.1)
+mkdocs-literate-nav (0.6.3)
+pymdown-extensions (10.21.2)
+Python 3.14
+
+================================================================================
+NOTE
+================================================================================
+
+The build output includes a MkDocs 2.0 migration warning. This is informational
+only — the current setup (MkDocs 1.6.1) is stable and production-ready.
+
+For more details, see /Users/adamraymond/mcp-loci/DOCS_SETUP.md
