@@ -1,8 +1,8 @@
 site_name: mcp-loci
 site_description: SQLite-backed persistent memory server for Claude — keyword + semantic search via MCP
-site_url: https://adamraymond.github.io/mcp-loci
-repo_url: https://github.com/adamraymond/mcp-loci
-repo_name: adamraymond/mcp-loci
+site_url: https://underratedf00l.github.io/MCP-Loci
+repo_url: https://github.com/underratedf00l/MCP-Loci
+repo_name: underratedf00l/MCP-Loci
 
 theme:
   name: material
