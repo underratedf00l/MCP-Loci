@@ -140,4 +140,4 @@ NOTE
 The build output includes a MkDocs 2.0 migration warning. This is informational
 only — the current setup (MkDocs 1.6.1) is stable and production-ready.
 
-For more details, see /Users/adamraymond/mcp-loci/DOCS_SETUP.md
+For more details, see /Users/underratedf00l/mcp-loci/DOCS_SETUP.md
