@@ -24,6 +24,22 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def _sanitize_fts_query(query: str) -> str:
+    """Convert a natural-language query into a safe FTS5 query string.
+
+    FTS5 interprets ':' as a column filter, '-' as NOT, etc.
+    Quoting each token forces literal matching and prevents parse errors
+    like 'no such column: pager'.
+    """
+    import re
+    tokens = re.split(r'[\s\-_/:;,]+', query.strip())
+    tokens = [t.strip('"\'.!?()[]{}') for t in tokens]
+    tokens = [t for t in tokens if len(t) >= 2]
+    if not tokens:
+        return f'"{query}"'
+    return " ".join(f'"{t}"' for t in tokens)
+
+
 def _get_keywords(text: str, n: int = 3) -> list[str]:
     stop = {"this", "that", "with", "from", "have", "been", "they", "will", "your", "their", "what", "when", "where", "which", "would", "could", "should", "about", "there", "into", "than", "then", "some", "more", "also", "just", "like", "very", "over", "such"}
     words = [w.lower().strip(".,!?;:\"'") for w in text.split()]
@@ -88,7 +104,8 @@ def recall(query: str, type_filter: Optional[str] = None, limit: int = 10, inclu
     now = _now_iso()
     
     type_clause = "AND m.type = ?" if type_filter else ""
-    params = [query]
+    safe_query = _sanitize_fts_query(query)
+    params = [safe_query]
     if type_filter:
         params.append(type_filter)
     params.append(limit * 3)
@@ -256,7 +273,7 @@ def synthesize(
     
     # Fetch memories matching scope
     if scope:
-        fts_query = scope
+        fts_query = _sanitize_fts_query(scope)
         rows = conn.execute(
             """SELECT m.id, m.name, m.type, m.description, m.content, m.updated_at, m.use_count, m.pinned
                FROM memories_fts fts
@@ -449,7 +466,7 @@ def synthesize(
 
     if scope and scope != "all":
         # FTS search within scope
-        fts_params = [scope] + params + [max_memories * 2]
+        fts_params = [_sanitize_fts_query(scope)] + params + [max_memories * 2]
         rows = conn.execute(
             f"""SELECT m.* FROM memories_fts fts
                 JOIN memories m ON fts.rowid = m.rowid
